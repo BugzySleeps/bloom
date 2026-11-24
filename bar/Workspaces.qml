@@ -34,12 +34,17 @@ Item {
         Behavior on x { NumberAnimation { duration: Theme.normal; easing.type: Easing.OutBack; easing.overshoot: 1.4 } }
         shape: root.shapes[(root.active - 1) % root.shapes.length]
         color: Theme.primary
+        // centred on the digit's ink, not the font's line box (which sits the number high and off to one side)
         Txt {
-            anchors.centerIn: parent
+            id: num
+            readonly property rect ink: metrics.tightBoundingRect
+            x: blob.width / 2 - ink.x - ink.width / 2
+            y: blob.height / 2 - baselineOffset - ink.y - ink.height / 2
             text: root.active
             size: 13
             weight: Font.Bold
             color: Theme.onPrimary
+            TextMetrics { id: metrics; font: num.font; text: num.text }
         }
     }
 
