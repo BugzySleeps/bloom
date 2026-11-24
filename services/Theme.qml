@@ -97,6 +97,11 @@ Singleton {
             const hex = c => c.toString().replace("#", "").slice(-6);
             Quickshell.execDetached(["hyprctl", "eval",
                 `hl.config({ general = { col = { active_border = { colors = { "rgba(${hex(root.primary)}cc)" }, angle = 0 }, inactive_border = "rgba(${hex(root.outlineSoft)}55)" } } })`]);
+            // the mouse's LEDs (rice's leds service reads this): the same hue, but vivid, since pale tones look
+            // washed out on an LED
+            const led = Settings.theme === "mono" ? root.tone(0, 0, 0.75) : root.tone(root.h, Math.max(0.75, root.s), 0.5);
+            Quickshell.execDetached(["sh", "-c", 'mkdir -p "$HOME/.local/state/bloom" && printf "%s\\n" "$1" > "$HOME/.local/state/bloom/mouse"',
+                "sh", "#" + hex(led)]);
         }
     }
 }
