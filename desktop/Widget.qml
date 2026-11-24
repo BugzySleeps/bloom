@@ -229,6 +229,8 @@ Item {
                     thick: 3
                     amp: 2
                     wave: 14
+                    moving: Media.playing
+                    fps: 24
                     track: Theme.alpha(Theme.text, 0.15)
                 }
                 Row {

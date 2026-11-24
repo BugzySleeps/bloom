@@ -23,7 +23,9 @@ Item {
     // one clock for everything that drifts (only runs while this is on screen)
     property real t: 0
     FrameAnimation {
-        running: root.visible
+        // only while the lock (or its preview) is actually up: the session lock keeps its screen built in the
+        // background, and a clock ticking every frame there cost ~30% CPU while unlocked
+        running: root.visible && (Lock.locked || Lock.preview)
         onTriggered: root.t += frameTime
     }
 
@@ -138,7 +140,7 @@ Item {
         opacity: root.at(0.15, 0.5)
 
         // petals: a ring that opens with the music (gently breathing when there's none)
-        readonly property var vals: Cava.values
+        readonly property var vals: Lock.locked || Lock.preview ? Cava.values : []   // (not while it's hidden)
         Repeater {
             model: 24
             Rectangle {
