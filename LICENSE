@@ -1,0 +1,57 @@
+Bloom licence
+
+Copyright (c) 2026 BugzySleeps. All rights reserved, except as set out below.
+
+"The Software" means everything in this repository: the code, shapes, logo, wallpaper and other
+artwork.
+
+You MAY:
+  1. Download and install the Software, and run it as your shell, on any computer you use.
+  2. Change your own installed copy to suit your own setup (colours, keybinds, settings,
+     widgets and so on).
+  3. Show the Software in use: screenshots, videos, streams, and posts about your setup.
+  4. Point others to it by linking to https://github.com/BugzySleeps/bloom (including from
+     your own dotfiles, for example as a git submodule or an install step that clones it).
+
+You MAY NOT, without written permission from the copyright holder:
+  5. Copy any part of the Software (code, shapes, logo, wallpaper or artwork), changed or not,
+     into another project, shell, configuration, theme or program.
+  6. Publish, share or host a copy of the Software, or a modified version of it, anywhere
+     other than this repository, except for a GitHub fork made through GitHub's fork
+     feature as GitHub's Terms of Service allow, which grants no rights beyond this licence.
+  7. Make and distribute works based on the Software, or present it, or any part of it, as
+     your own.
+  8. Sell the Software or any part of it, or use it in a paid product or service.
+
+To ask for permission, open an issue at https://github.com/BugzySleeps/bloom.
+
+Your rights under this licence end automatically if you break it.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO
+EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING
+FROM THE SOFTWARE OR ITS USE.
+
+---------------------------------------------------------------------------------------
+
+Third-party material keeps its own licence:
+
+launcher/emoji.tsv is built from gemoji (https://github.com/github/gemoji):
+
+    Copyright (c) 2019 GitHub, Inc.
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    software and associated documentation files (the "Software"), to deal in the Software
+    without restriction, including without limitation the rights to use, copy, modify,
+    merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to the following
+    conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies
+    or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+    INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+    PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+    THE USE OR OTHER DEALINGS IN THE SOFTWARE.
