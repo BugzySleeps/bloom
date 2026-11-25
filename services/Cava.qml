@@ -8,16 +8,21 @@ import Quickshell.Io
 Singleton {
     id: root
 
+    property real peak: floor
+    readonly property real floor: 300   // in cava's 0..1000 at sensitivity 250: about a normal song's level
     readonly property int bars: 24      // shown mirrored (48 on screen): wider bands, more to react to
     property var values: []
     readonly property bool running: Settings.visualizer && Media.playing
 
     readonly property string conf: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/bloom-cava.conf"
     readonly property string text: [
-        "[general]", "bars = " + bars, "framerate = 30", "autosens = 0", "sensitivity = 60000",   // fixed (measured at 54% volume): loud songs reach high, calm ones stay low
+        // Fixed, low sensitivity with lots of headroom (0..1000) so cava never clips on any output or
+        // volume; the level below (peak) then scales it. 60000 fit the quiet USB dongle and pinned every
+        // bar on the laptop speaker (~100x louder), so a single fixed number can't work everywhere.
+        "[general]", "bars = " + bars, "framerate = 30", "autosens = 0", "sensitivity = 250",
         "[input]", "method = pipewire",
         "[output]", "method = raw", "raw_target = /dev/stdout", "data_format = ascii",
-        "ascii_max_range = 100", "bar_delimiter = 59", "frame_delimiter = 10",
+        "ascii_max_range = 1000", "bar_delimiter = 59", "frame_delimiter = 10",
         "[smoothing]", "noise_reduction = 66"
     ].join("\n")
 
@@ -36,8 +41,19 @@ Singleton {
         stdout: SplitParser {
             onRead: line => {
                 const v = line.split(";");
+                const raw = [];
+                let top = 0;
+                for (let i = 0; i < root.bars; i++) {
+                    const x = parseInt(v[i]) || 0;
+                    raw.push(x);
+                    if (x > top) top = x;
+                }
+                // Loudness level: jumps up at once with anything louder, sinks back slowly (half
+                // every ~minute), so a calm song after a loud one stays calm but nothing stays pinned.
+                // The floor keeps silence and very quiet songs from being blown up to full height.
+                root.peak = Math.max(top, root.peak * 0.99962, root.floor);
                 const out = [];
-                for (let i = 0; i < root.bars; i++) out.push((parseInt(v[i]) || 0) / 100);
+                for (let i = 0; i < root.bars; i++) out.push(Math.min(1, raw[i] / root.peak * 0.95));
                 root.values = out;
             }
         }
