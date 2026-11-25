@@ -73,15 +73,24 @@ Singleton {
 
     // the wallpaper's seed: its most colourful common colour (tools/seed.py)
     readonly property string wallPath: Settings.wallpaper || Qt.resolvedUrl("../assets/wallpaper.png").toString().replace("file://", "")
-    onWallPathChanged: seeder.running = true
+    // Set the command here rather than binding it: a binding may update after this
+    // handler runs, which re-seeded from the PREVIOUS wallpaper (stuck one behind).
+    // Restart even if a seed is still running, and ignore answers for an old path.
+    onWallPathChanged: reseed()
+    Component.onCompleted: reseed()
+    function reseed(): void {
+        seeder.running = false;
+        seeder.path = root.wallPath;
+        seeder.command = ["python3", "-I", Quickshell.shellDir + "/tools/seed.py", root.wallPath];
+        seeder.running = true;
+    }
     Process {
         id: seeder
-        running: true
-        command: ["python3", "-I", Quickshell.shellDir + "/tools/seed.py", root.wallPath]
+        property string path
         stdout: StdioCollector {
             onStreamFinished: {
                 const c = text.trim();
-                if (/^#[0-9a-fA-F]{6}$/.test(c))
+                if (seeder.path === root.wallPath && /^#[0-9a-fA-F]{6}$/.test(c))
                     root.wallSeed = c;
             }
         }

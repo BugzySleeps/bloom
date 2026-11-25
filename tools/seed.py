@@ -8,7 +8,9 @@ import sys
 from PIL import Image
 
 try:
-    im = Image.open(sys.argv[1]).convert("RGB")
+    im = Image.open(sys.argv[1])
+    im.draft("RGB", (192, 192))   # JPEGs decode at reduced size: a big wallpaper takes a fraction of the time
+    im = im.convert("RGB")
 except Exception:
     print("#b59a4c")
     sys.exit()
